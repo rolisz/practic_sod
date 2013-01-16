@@ -1,0 +1,2 @@
+Sa se implementezi in C o pereche de programe client/server care comunica prin socket-uri TCP. Serverul va deservi mai multi clienti simultan folosind thread-uri. Clientul trimite serverului un string, serverul inlocuieste in string fiecare vocala cu spatiu si il scrie intr-u fisier "a.txt" impreauna cu stringul original. Serverul trimite inapoi clientului stringul procesat si numarul de linii din fisierul "a.txt". Se vor realiza toate sincronizarile necesare.
+
