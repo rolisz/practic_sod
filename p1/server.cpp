@@ -59,7 +59,6 @@ void* thread(void *arg) {
   if (send(sClient,(char*)&nrLinii,sizeof(int),0) <0 ) {
     printf("Eroare la trimitere numar \n");
   }
-  pthread_mutex_destroy(&mutex);
   close(sClient);
 }
 
@@ -107,6 +106,7 @@ int main(int argc, char *argv[]) {
   for (j = 0; j < i; j++) {
     pthread_join(threads[j],NULL);
   }
+  pthread_mutex_destroy(&mutex);
   return 0;
 
 
