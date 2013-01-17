@@ -8,9 +8,19 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <string.h>
-
+#include <signal.h>
 pthread_mutex_t mutex;
 
+pthread_t threads[100];
+int i;
+void sighandler(int num) {
+  printf("Catched signal \n");
+  int j;
+  for (j = 0; j < i; j++ ) {
+    pthread_join(threads[j],NULL);
+  }
+  exit(0);
+}
 void send(int length,char* mesaj,int sServer) {
   length = htonl(length);
   if (send(sServer,(char*)&length,sizeof(int),0) <0) {
@@ -116,8 +126,6 @@ int main(int argc, char *argv[]) {
   int iPort = 28345;
   sListen = socket(AF_INET,SOCK_STREAM,0);
 
-  pthread_t threads[100];
-
   pthread_mutex_init(&mutex,NULL);
   if (sListen < 0) {
     printf("Eroare la initializare socket \n");
@@ -145,7 +153,12 @@ int main(int argc, char *argv[]) {
   adauga_lista(lista,"username","pw");
   adauga_lista(lista,"utilizator","jelszo");
 
-  int i = 0,s;
+  if (signal(SIGINT,sighandler) == SIG_ERR) {
+    printf("Eroare la signal handling");
+  }
+
+  i = 0;
+  int s;
   socklen_t addrSize = sizeof(client);
   while (1) {
     sClient = accept(sListen, (struct sockaddr *)&client,&addrSize);
