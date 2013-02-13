@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
   rp.sin_family = AF_INET;
   rp.sin_port = htons(iPort);
 
-  if (bind(sListen,(sockaddr*)&rp,sizeof(rp))<0) {
+  if (bind(sListen,(struct sockaddr*)&rp,sizeof(rp))<0) {
     printf("Eroare la bind \n");
     exit(1);
   }
